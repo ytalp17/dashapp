@@ -1,4 +1,5 @@
 import dash
+import os
 import dash_html_components as html
 import dash_core_components as dcc
 import plotly.express as px
@@ -22,7 +23,11 @@ def blank_fig():
     return fig
 
 #Data Part
-nba = pd.read_excel('/Users/yigitalp/PycharmProjects/nba/nba.xlsx',header=[1])
+dir = os.path.dirname(__file__)
+print(dir)
+filename = os.path.join(dir, 'nba.xlsx')
+
+nba = pd.read_excel(filename,header=[1])
 
 new_colnames = ['RANK', 'FULL NAME', 'TEAM', 'POS', 'AGE', 'GP', 'MPG','MIN','USG','TO','FTA','FT%','2PA','2P%','3PA','3P%',
                'efg', 'TS%', 'PPG' ,'RPG', 'TRB','APG','AST','SPG','BPG','TPG', 'VIV', 'ORT', 'DRT']
