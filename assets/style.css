@@ -1,0 +1,40 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  background-color : grb(231,231,231);
+  grid-gap : 10px;
+  grid-template-areas:
+  "header header header";
+
+}
+
+.header{
+    grid-area:header;
+    background-color : rgb(53,149,235);
+    margin : 1px;
+    grid-gap : 1px;
+    color:white;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+
+}
+.one {
+  grid-column: 1;
+  grid-row: 1/4;
+  padding-top: 110px;
+
+
+}
+.two {
+  grid-column: 3;
+  grid-row: 1/4;
+  padding-top: 110px;
+}
+.three {
+  grid-column: 2 ;
+  grid-row: 1 / 4;
+}
+
+
+
