@@ -24,7 +24,6 @@ def blank_fig():
 #Data Part
 nba = pd.read_excel('/Users/yigitalp/PycharmProjects/nba/nba.xlsx',header=[1])
 
-
 new_colnames = ['RANK', 'FULL NAME', 'TEAM', 'POS', 'AGE', 'GP', 'MPG','MIN','USG','TO','FTA','FT%','2PA','2P%','3PA','3P%',
                'efg', 'TS%', 'PPG' ,'RPG', 'TRB','APG','AST','SPG','BPG','TPG', 'VIV', 'ORT', 'DRT']
 nba.columns = new_colnames
