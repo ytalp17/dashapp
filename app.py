@@ -39,6 +39,7 @@ avg_table_stats = ['FT%','3PM','PPG','RPG','APG','SPG','BPG','TPG','FG%']
 def fantasy_stats(df):
     final = []
 
+
     for i in df.columns:
         if i in [col for col in df.columns if '%' in col]:
             final.append(df[i].mean())
