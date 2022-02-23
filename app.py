@@ -10,6 +10,7 @@ from dash import dash_table
 import numpy as np
 import re
 import pickle
+import xlrd
 
 
 
