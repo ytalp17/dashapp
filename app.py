@@ -30,6 +30,7 @@ def blank_fig():
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'PlayerRankings2021_pergame_all.csv')
 filename2 = os.path.join(dir, 'BBM_PlayerRankings.xls')
+pickle_file = os.path.join(dir,'nba_population_stat.pickle')
 
 nba = pd.read_csv(filename)
 new_season = pd.read_excel(filename2)
@@ -45,7 +46,7 @@ new_season = new_season[features_of_interest]
 ##Z-stats
 #pre-determined population stat based on the last season
 
-with open('/Users/yigitalp/PycharmProjects/nba/nba_population_stat.pickle', 'rb') as handle:
+with open(pickle_file, 'rb') as handle:
     pop_stats = pickle.load(handle)
 
 #define new random variable called ft fg impact its like weighted by volume
