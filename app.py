@@ -151,7 +151,7 @@ z = ['FTz', '3PGz', 'PPGz', 'RPGz', 'APGz', 'SPGz', 'BPGz', 'TPGz', 'FGz']
 df_numeric = new_season[z]
 min = new_season[z].min().min()
 max = new_season[z].max().max()
-colors = ['#44000D', '#83142C', '#AD1D45', '#F9D276', '#F9D276', '#3A9188', '#044A42', '#062925']
+colors = ['#44000D', '#83142C', '#AD1D45', '#07689F', '#07689F', '#3A9188', '#044A42', '#062925']
 ranges = [min, -3, -2, -1, 0, 1, 2, 3, max]
 
 styles = []
