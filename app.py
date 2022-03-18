@@ -217,8 +217,6 @@ dashtable_1 = dash_table.DataTable(
     style_data_conditional=styles,
     fixed_columns={'headers': True, 'data': 1},
 
-
-
 )
 
 
@@ -331,7 +329,7 @@ def generate_modal():
                         children=dcc.Markdown(
                             children=(
                                 """
-                        ###### What is this mock app about?
+                        ###### What is this app about?
                         This is a dashboard for monitoring real-time process quality along manufacture production line.
                         ###### What does this app shows
                         Click on buttons in `Parameter` column to visualize details of measurement trendlines on the bottom panel.
