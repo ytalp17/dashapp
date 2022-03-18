@@ -3,22 +3,48 @@ body {
   color: #f3f5f4;
   font-family: "Open Sans", sans-serif;
   width: 100%;
-  height: 100vh;
-  max-width: 100% !important;
-  overflow-x: hidden;
-  margin: 0;
+  height: 100%;
+  overflow-x: auto;
+  margin: 5px;
 }
+
+.banner {
+  height: fit-content;
+  background-color: #1e2130;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #4B5460;
+  padding: 1rem 6rem;
+  width: 100%;
+}
+
+
 
 .wrapper {
+  height: fit-content;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap : 5px;
-  grid-template-areas:"main main main";
-  padding-top: 25px;
-  padding: 1rem 10rem;
-
+  grid-template-columns: 1fr 500px 1fr;  /* 1fr 1fr 1fr*/
+  grid-gap : 3px;
+  padding-top: 4px;
+  /*grid-template-areas:"main main main";*/
+  /*padding: 16px 160px;*/
 }
 
+
+.center {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  text-align: center;
+  padding-top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: rgb(22,26,39);
+  display: flex;
+  flex-direction: column;
+  float: left;
+}
 
 
 .left {
@@ -28,22 +54,10 @@ body {
   text-align: left;
   padding-left: 10px;
   padding-right: 10px;
-  grid-gap : 5px;
   background-color: rgb(22,26,39);
-
-}
-
-.left2 {
-  grid-column: 1;
-  grid-row: 3/4;
-  padding-top: 30px;
-  text-align: left;
-  padding-left: 10px;
-  padding-right: 10px;
-  grid-gap : 5px;
-  background-color: rgb(22,26,39);
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
+  float: left;
 }
 
 .right {
@@ -53,15 +67,32 @@ body {
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  grid-gap : 5px;
   background-color: rgb(22,26,39);
+  float: left;
+}
+
+
+.left2 {
+  grid-column: 1;
+  grid-row: 3/4;
+  padding-top: 30px;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: rgb(22,26,39);
+  display:flex;
+  flex-direction:column;
+}
+
+.table11 {
 }
 
 .table22 {
   padding-top: 25px;
 }
+
 .radio {
-  padding-bottom: 25px;
+  padding-bottom: 15px;
 }
 
 
@@ -77,18 +108,6 @@ body {
   display:flex;
   flex-direction:column;
 }
-
-.center {
-  width: 500px;
-  grid-column: 2 ;
-  grid-row: 1 / 4;
-  text-align: center;
-  padding-top: 25px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background-color: rgb(22,26,39);
-}
-
 
 
  #big-app-container {
@@ -587,10 +606,16 @@ textarea:focus,
   /*select:focus {*/
   /*  border: 1px solid #33C3F0;*/
   /*  outline: 0; }*/
-label,
-legend {
+label{
   display: block;
   margin-bottom: 0px;
+}
+
+.legend {
+  display: flex;
+  flex-direction: columns;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 fieldset {
@@ -644,6 +669,7 @@ li {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 table {
   border-collapse: collapse;
+}
 }
 
 th,
@@ -818,19 +844,10 @@ there.
   border-color: #91dfd2 !important;
 }}
 
-legend = [html.Div(children=[html.Div(style={'backgroundColor': 'darkred', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'firebrick', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(children=-3, style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'lightcoral', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(children=-2, style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'tan', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(children=-1, style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'tan', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(children=1, style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'lightgreen', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(children=2, style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'limegreen', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(children=3, style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'}),
-          html.Div(children=[html.Div(style={'backgroundColor': 'forestgreen', 'borderLeft': '1px rgb(50, 50, 50) solid', 'height': '5px'}),
-                        html.Small(style={'paddingRight': '4px'})], style={'display': 'inline-block', 'width': '20px'})]
+* {
+  box-sizing: border-box;
+}
+
+input{
+   color: white;
+}

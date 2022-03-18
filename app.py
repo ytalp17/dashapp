@@ -13,9 +13,10 @@ import pickle
 import xlrd
 
 
-
-
-app = dash.Dash(__name__)
+#meta_tags are for responsive layout
+app = dash.Dash(
+    meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
+    )
 server = app.server
 
 
@@ -27,10 +28,11 @@ def blank_fig():
     return fig
 
 #Data Part
+
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'PlayerRankings2021_pergame_all.csv')
 filename2 = os.path.join(dir, 'BBM_PlayerRankings.xls')
-pickle_file = os.path.join(dir,'nba_population_stat.pickle')
+pickle_file = os.path.join(dir, 'nba_population_stat.pickle')
 
 nba = pd.read_csv(filename)
 new_season = pd.read_excel(filename2)
@@ -85,11 +87,12 @@ z_scores = z_scores.reset_index(drop=True)
 
 final_column = ['Name', 'FT%_z', '3PM_z', 'PPG_z', 'RPG_z', 'APG_z', 'SPG_z',
                 'BPG_z', 'TPG_z', 'FG%_z', 'z_Total']
+
 z_scores = z_scores[final_column]
 new_season = pd.merge(new_season, z_scores, on="Name")
 
 
-new_colnames = ['PLAYER NAME', 'TEAM', 'POS', 'GP', 'MPG', 'PPG', '3PG', 'RPG', 'APG',
+new_colnames = ['NAME', 'TEAM', 'POS', 'GP', 'MPG', 'PPG', '3PG', 'RPG', 'APG',
                 'SPG', 'BPG', 'FG%', 'FGA', 'FT%', 'FTA', 'TPG', 'FTz', '3PGz', 'PPGz',
                 'RPGz', 'APGz', 'SPGz', 'BPGz', 'TPGz', 'FGz', 'TOTALz']
 
@@ -100,13 +103,13 @@ nba.columns = new_colnames
 
 fantasy_skills = ['FT%', '3PG', 'PPG', 'RPG', 'APG', 'SPG', 'BPG', 'TPG', 'FG%']
 
-table_stats = ['PLAYER NAME', 'TEAM', 'POS', 'GP', 'MPG', 'PPG', '3PG', 'RPG', 'APG',
+table_stats = ['NAME', 'TEAM', 'POS', 'GP', 'MPG', 'PPG', '3PG', 'RPG', 'APG',
                'SPG', 'BPG', 'FG%', 'FGA', 'FT%', 'FTA', 'TPG', 'FTz', '3PGz', 'PPGz',
                'RPGz', 'APGz', 'SPGz', 'BPGz', 'TPGz', 'FGz', 'TOTALz']
 
 nba = nba.round(2)
 new_season = new_season.round(2)
-player_names_list = new_season['PLAYER NAME'].tolist()
+player_names_list = new_season['NAME'].tolist()
 
 
 
@@ -126,8 +129,8 @@ def fantasy_stats(df):
     return f_df
 
 #place holders
-player1 = ['Kevin Durant', 'Mike James']
-player2 = ['Kris Dunn', 'Clint Capela']
+player1 = ['Kevin Durant']
+player2 = ['Kris Dunn']
 
 
 ###Interactive Component
@@ -135,7 +138,7 @@ player2 = ['Kris Dunn', 'Clint Capela']
 #player pool (drop down options)
 players_options = []
 for i in nba.index:
-    players_options.append({'label': nba['PLAYER NAME'][i], 'value': nba['PLAYER NAME'][i]})  #update here!
+    players_options.append({'label': nba['NAME'][i], 'value': nba['NAME'][i]})  #update here!
 
 #color_code
 z = ['FTz', '3PGz', 'PPGz', 'RPGz', 'APGz', 'SPGz', 'BPGz', 'TPGz', 'FGz']
@@ -169,7 +172,7 @@ for i in range(1, len(ranges)):
 
     if ((min_bound == -3) | (min_bound == -2) | (min_bound == -1)):
         legend.append(
-            html.Div(style={'display': 'inline-block', 'width': '25px'}, children=[
+            html.Div(style={'display': 'inline-block', 'width': '20px'}, children=[
                 html.Div(
                     style={
                     'backgroundColor': backgroundColor,
@@ -182,7 +185,7 @@ for i in range(1, len(ranges)):
         )
     elif ((min_bound == 0) | (min_bound == 1) | (min_bound == 2)):
         legend.append(
-            html.Div(style={'display': 'inline-block', 'width': '25px'}, children=[
+            html.Div(style={'display': 'inline-block', 'width': '20px'}, children=[
                 html.Div(
                     style={
                         'backgroundColor': backgroundColor,
@@ -199,26 +202,31 @@ for i in range(1, len(ranges)):
 #Table1
 dashtable_1 = dash_table.DataTable(
     id='table1',
-    columns=[{"name": i, "id": i} for i in nba[table_stats]], #update
-    data=nba[nba['PLAYER NAME'].isin(player1)].to_dict('records'), #update here  #place holder data?!
+    style_as_list_view=True,
+    columns=[{"name": i, "id": i} for i in nba[table_stats]],
+    data=nba[nba['NAME'].isin(player1)].to_dict('records'),
     style_header={'backgroundColor': 'rgb(36,38,50)',
                   'color': 'white'},
     style_data={
         'backgroundColor': 'rgb(36,38,50)',
         'color': 'white'},
 
-    style_cell={'textAlign': 'center'},
+    style_cell={'textAlign': 'center', 'minWidth': '60px', 'width': '60px', 'maxWidth': '60px',
+                'whiteSpace': 'normal'},
     style_table={'overflowX': 'scroll'},
-    sort_action='native',
     style_data_conditional=styles,
+    fixed_columns={'headers': True, 'data': 1},
+
+
 
 )
+
 
 #Table1 results (avg)_part
 dashtable_1_avg = dash_table.DataTable(
     id='table1_avg',
     columns=[{"name": i, "id": i} for i in nba[fantasy_skills]], #update
-    data=fantasy_stats(nba[nba['PLAYER NAME'].isin(player1)][fantasy_skills]).to_dict('records'), #update
+    data=fantasy_stats(nba[nba['NAME'].isin(player1)][fantasy_skills]).to_dict('records'), #update
     style_as_list_view=True,
     style_header={'backgroundColor': 'rgb(36,38,50)',
                   'color': 'white'},
@@ -226,7 +234,8 @@ dashtable_1_avg = dash_table.DataTable(
         'backgroundColor': 'rgb(36,38,50)',
         'color': 'white'},
 
-    style_cell={'textAlign': 'center'},
+    style_cell={'textAlign': 'center', 'minWidth': '60px', 'width': '60px', 'maxWidth': '60px',
+                'whiteSpace': 'normal'},
     style_table={'overflowX': 'scroll'},
 
 )
@@ -234,18 +243,21 @@ dashtable_1_avg = dash_table.DataTable(
 #Table2
 dashtable_2 = dash_table.DataTable(
     id='table2',
+    style_as_list_view=True,
+
     columns=[{"name": i, "id": i} for i in nba[table_stats]], #update
-    data=nba[nba['PLAYER NAME'].isin(player2)].to_dict('records'), #update
+    data=nba[nba['NAME'].isin(player2)].to_dict('records'), #update
     style_header={'backgroundColor': 'rgb(36,38,50)',
                   'color': 'white'},
     style_data={
         'backgroundColor': 'rgb(36,38,50)',
         'color': 'white'
     },
-    style_cell={'textAlign': 'center'},
+    style_cell={'textAlign': 'center', 'minWidth': '60px', 'width': '60px', 'maxWidth': '60px',
+                'whiteSpace': 'normal'},
     style_table={'overflowX': 'scroll'},
-    sort_action='native',
     style_data_conditional=styles,
+    fixed_columns={'headers': True, 'data': 1},
 
 )
 
@@ -253,7 +265,7 @@ dashtable_2 = dash_table.DataTable(
 dashtable_2_avg = dash_table.DataTable(
     id='table2_avg',
     columns=[{"name": i, "id": i} for i in nba[fantasy_skills]], #update
-    data=fantasy_stats(nba[nba['PLAYER NAME'].isin(player2)][fantasy_skills]).to_dict('records'), #update
+    data=fantasy_stats(nba[nba['NAME'].isin(player2)][fantasy_skills]).to_dict('records'), #update
     style_as_list_view=True,
     style_header={'backgroundColor': 'rgb(36,38,50)',
                   'color': 'white'},
@@ -261,8 +273,10 @@ dashtable_2_avg = dash_table.DataTable(
         'backgroundColor': 'rgb(36,38,50)',
         'color': 'white'
     },
-    style_cell={'textAlign': 'center'},
+    style_cell={'textAlign': 'center', 'minWidth': '60px', 'width': '60px', 'maxWidth': '60px',
+                'whiteSpace': 'normal'},
     style_table={'overflowX': 'scroll'},
+
 )
 
 
@@ -337,7 +351,7 @@ def generate_modal():
         ),
     )
 
-
+val = 'Christian Wood Desmond Bane Derrick White Steven Adams Julius Randle'
 
 #Define the app Layout (html part)
 app.layout = html.Div(id='big-app-container', children=[
@@ -359,13 +373,16 @@ app.layout = html.Div(id='big-app-container', children=[
                                     dcc.Input(id="roster1",
                                               placeholder='Paste Your Yahoo Roster Here',
                                               type='text',
-                                              value='',
+                                              value=val,
 
                                           ),]),
+
                         ]),
 
                         html.Div(className='center', children=[
-                            dcc.Graph(id='graph_example', style={'autosize': True}),
+                            dcc.Graph(id='graph_example', style={
+                                                                'autosize': True},
+                                      ),
                             html.Div(className='radio', children=[
                             dcc.RadioItems(
                                             id='season',
@@ -376,10 +393,15 @@ app.layout = html.Div(id='big-app-container', children=[
                                             value='nba',
                                             labelStyle={'display': 'inline-block'},
                             ), ]),
-                            html.Div(html.Div(legend, style={'padding': '5px 0 0 0'}),
-                                     style={'float': 'right'}),
-                            dbc.Row(id ='dash_table', children=[dashtable_1]),
-                            dbc.Row(id ='dash_table_avg', children=[dashtable_1_avg]),
+                            html.Div(className='legend', children=[
+                                html.Small('*The table is scrollable through right!'),
+                                html.Div(legend)
+                            ]),
+                            html.Div(className='table11', children=[
+                                dbc.Row(id ='dash_table', children=[dashtable_1]),
+                                dbc.Row(id ='dash_table_avg', children=[dashtable_1_avg]),
+                            ]),
+
                             html.Div(className='table22', children=[
                                 dbc.Row(id ='dash_table22_1', children=[dashtable_2]),
                                 dbc.Row(id ='dash_table221_avg', children=[dashtable_2_avg])
@@ -431,20 +453,20 @@ def update_click_output(button_click, close_click):
     return {"display": "none"}
 
 
-#Paste roster to dropdown (left)
+#Paste roster to input (left)
 @app.callback(
     Output("player1", "value"),
     Input("roster1", "value"),
 )
 
-#parse "pasted text" and find the ones that match with the player names in the pool (player_names_list)
+#parse "pasted text" and find the ones that match with the NAMEs in the pool (player_names_list)
 def auto_fill1(roster1):
     my_players_raw = [re.findall(str(player), roster1) for player in player_names_list]
     my_players = [emp for emp in my_players_raw if emp != []]
     my_players_flat = [item for sublist in my_players for item in sublist]
     return my_players_flat
 
-#Paste roster to dropdown (right)
+#Paste roster to input (right)
 @app.callback(
     Output("player2", "value"),
     Input("roster2", "value"),
@@ -466,10 +488,10 @@ def auto_fill1(roster2):
 
 def set_options_player1(selected_data):
     if selected_data == 'nba':
-        player_pool1 = [{'label': nba['PLAYER NAME'][i], 'value': nba['PLAYER NAME'][i]} for i in nba.index] #update
+        player_pool1 = [{'label': nba['NAME'][i], 'value': nba['NAME'][i]} for i in nba.index] #update
         return player_pool1, player_pool1
     else:
-        player_pool2 = [{'label': new_season['PLAYER NAME'][i], 'value': new_season['PLAYER NAME'][i]} for i in new_season.index]#update
+        player_pool2 = [{'label': new_season['NAME'][i], 'value': new_season['NAME'][i]} for i in new_season.index]#update
 
         return player_pool2, player_pool2
 
@@ -495,12 +517,12 @@ def set_options_player1(selected_data):
 
 def tab_1_function(player1, player2, seas): #seas =season
     #left
-    x1 = nba[nba['PLAYER NAME'].isin(player1)]['GP'].values
-    y1 = nba[nba['PLAYER NAME'].isin(player1)]['PLAYER NAME'].values
+    x1 = nba[nba['NAME'].isin(player1)]['GP'].values
+    y1 = nba[nba['NAME'].isin(player1)]['NAME'].values
 
     #right
-    x2 = nba[nba['PLAYER NAME'].isin(player2)]['GP'].values
-    y2 = nba[nba['PLAYER NAME'].isin(player2)]['PLAYER NAME'].values
+    x2 = nba[nba['NAME'].isin(player2)]['GP'].values
+    y2 = nba[nba['NAME'].isin(player2)]['NAME'].values
 
     #left horizontal bar for game played
     fig1 = go.Figure(
@@ -538,8 +560,8 @@ def tab_1_function(player1, player2, seas): #seas =season
             showgrid=False,
             showticklabels=True,
             domain=[0, 0.90],
-            range=[0,82],
-            title="Game Played (Previous Season)",
+            range=[0, 82],
+            title="Game Played-Previous Season",
             titlefont={"color": "white"},
         ),
         margin=dict(
@@ -548,8 +570,8 @@ def tab_1_function(player1, player2, seas): #seas =season
             r=1,
             t=3),
         showlegend=False,
-        height=230,
-        width=300,
+        #height=230,
+        #width=300,
         legend={"font": {"color": "darkgray"}, "orientation": "h", "x": 0, "y": 1.1},
         font={"color": "darkgray"},
     )
@@ -571,7 +593,7 @@ def tab_1_function(player1, player2, seas): #seas =season
             showgrid=False,
             domain=[0.1, 1],
             autorange="reversed",
-            title="Game Played (Previous Season)",
+            title="Game Played-Previous Season",
             titlefont={"color": "white"},
         ),
         margin=dict(
@@ -580,8 +602,8 @@ def tab_1_function(player1, player2, seas): #seas =season
             r=3,
             t=3),
         showlegend=False,
-        height=230,
-        width=300,
+        #height=230,
+        #width=300,
         legend={"font": {"color": "darkgray"}, "orientation": "h", "x": 0, "y": 1.1},
         font={"color": "darkgray"},
     )
@@ -593,15 +615,15 @@ def tab_1_function(player1, player2, seas): #seas =season
     fig2.add_vline(x=np.percentile(nba['GP'].values, 75), line_width=2, line_dash="dash", line_color="white") #update
 
     if seas == 'nba':
-        df1_for_plot = fantasy_stats(nba[nba['PLAYER NAME'].isin(player1)][fantasy_skills]).T.round(3)
+        df1_for_plot = fantasy_stats(nba[nba['NAME'].isin(player1)][fantasy_skills]).T.round(3)
         df1_for_plot.columns = ['score']
-        df2_for_plot = fantasy_stats(nba[nba['PLAYER NAME'].isin(player2)][fantasy_skills]).T.round(3)
+        df2_for_plot = fantasy_stats(nba[nba['NAME'].isin(player2)][fantasy_skills]).T.round(3)
         df2_for_plot.columns = ['score']
 
-        table_updated1 = nba[nba['PLAYER NAME'].isin(player1)].to_dict('records')
-        table_updated1_avg = fantasy_stats(nba[nba['PLAYER NAME'].isin(player1)][fantasy_skills]).round(2).to_dict('records')
-        table_updated2 = nba[nba['PLAYER NAME'].isin(player2)].to_dict('records')
-        table_updated2_avg = fantasy_stats(nba[nba['PLAYER NAME'].isin(player2)][fantasy_skills]).round(2).to_dict('records')
+        table_updated1 = nba[nba['NAME'].isin(player1)].to_dict('records')
+        table_updated1_avg = fantasy_stats(nba[nba['NAME'].isin(player1)][fantasy_skills]).round(2).to_dict('records')
+        table_updated2 = nba[nba['NAME'].isin(player2)].to_dict('records')
+        table_updated2_avg = fantasy_stats(nba[nba['NAME'].isin(player2)][fantasy_skills]).round(2).to_dict('records')
 
         list_scores = [df1_for_plot.index[i].capitalize() + ' = ' + str(df1_for_plot['score'][i]) for i in
                        range(len(df1_for_plot))]
@@ -657,7 +679,7 @@ def tab_1_function(player1, player2, seas): #seas =season
             plot_bgcolor='rgb(22,26,39)',
             paper_bgcolor='rgb(22,26,39)',
             font_color='white',
-            font_size=15
+            font_size=14
         )
 
         return table_updated1, table_updated1_avg, table_updated2, table_updated2_avg, fig, fig1, fig2
@@ -665,16 +687,16 @@ def tab_1_function(player1, player2, seas): #seas =season
 
 
     else:
-        df1_for_plot = fantasy_stats(new_season[new_season['PLAYER NAME'].isin(player1)][fantasy_skills]).T.round(3)
+        df1_for_plot = fantasy_stats(new_season[new_season['NAME'].isin(player1)][fantasy_skills]).T.round(3)
         df1_for_plot.columns = ['score']
-        df2_for_plot = fantasy_stats(new_season[new_season['PLAYER NAME'].isin(player2)][fantasy_skills]).T.round(3)
+        df2_for_plot = fantasy_stats(new_season[new_season['NAME'].isin(player2)][fantasy_skills]).T.round(3)
         df2_for_plot.columns = ['score']
 
-        table_updated1 = new_season[new_season['PLAYER NAME'].isin(player1)].to_dict('records')
-        table_updated1_avg = fantasy_stats(new_season[new_season['PLAYER NAME'].isin(player1)][fantasy_skills]).round(2).to_dict(
+        table_updated1 = new_season[new_season['NAME'].isin(player1)].to_dict('records')
+        table_updated1_avg = fantasy_stats(new_season[new_season['NAME'].isin(player1)][fantasy_skills]).round(2).to_dict(
             'records')
-        table_updated2 = new_season[new_season['PLAYER NAME'].isin(player2)].to_dict('records')
-        table_updated2_avg = fantasy_stats(new_season[new_season['PLAYER NAME'].isin(player2)][fantasy_skills]).round(2).to_dict(
+        table_updated2 = new_season[new_season['NAME'].isin(player2)].to_dict('records')
+        table_updated2_avg = fantasy_stats(new_season[new_season['NAME'].isin(player2)][fantasy_skills]).round(2).to_dict(
             'records')
 
 
@@ -734,7 +756,7 @@ def tab_1_function(player1, player2, seas): #seas =season
             plot_bgcolor='rgb(22,26,39)',
             paper_bgcolor='rgb(22,26,39)',
             font_color='white',
-            font_size=15
+            font_size=14
         )
 
 
