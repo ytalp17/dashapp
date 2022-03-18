@@ -13,11 +13,17 @@ import pickle
 import xlrd
 
 
+
+
 #meta_tags are for responsive layout
+
+
 app = dash.Dash(__name__,
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
     )
 server = app.server
+
+app.css.append_css({"external_url": "./assets/style.css"})
 
 
 def blank_fig():
