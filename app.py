@@ -335,15 +335,20 @@ def generate_modal():
                         children=dcc.Markdown(
                             children=(
                                 """
-                        ###### What is this app about?
-                        This is a dashboard for monitoring real-time process quality along manufacture production line.
-                        ###### What does this app shows
-                        Click on buttons in `Parameter` column to visualize details of measurement trendlines on the bottom panel.
-                        The sparkline on top panel and control chart on bottom panel show Shewhart process monitor using mock data.
-                        The trend is updated every other second to simulate real-time measurements. Data falling outside of six-sigma control limit are signals indicating 'Out of Control(OOC)', and will
-                        trigger alerts instantly for a detailed checkup.
-
-                        Operators may stop measurement by clicking on `Stop` button, and edit specification parameters by clicking specification tab.
+                        ###### What is this dashboard about?
+                        This is a NBA player comparison tool which is built merely for fun. However, one can 
+                        freely utilize it to improve their fantasy basketball game.
+                        ###### What does this dashboard shows?
+                        Overall, the dashboard is designed in a way that it consist of 3 columns. 
+                        While the side columns contain elements that help you to determine your roster in addition to a bar chart
+                        that shows player's total game plays in the previous season (2020-2021), 
+                        a dropdown menu and a text input section (at the bottom), 
+                        the column in the center contains a polar graph that compares nine default categories
+                        that is widely used in category-based leagues, and two stat sheets for each corresponding rosters.
+                        
+                        
+                
+                
                         ###### Source Code
                         You can find the source code of this app on our [Github repository](https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-manufacture-spc-dashboard).
                     """
