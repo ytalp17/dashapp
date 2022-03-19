@@ -337,20 +337,53 @@ def generate_modal():
                                 """
                         ###### What is this dashboard about?
                         This is a NBA player comparison tool which is built merely for fun. However, one can 
-                        freely utilize it to improve their fantasy basketball game.
+                        freely utilize it to improve their "fantasy basketball" game.
+                        
                         ###### What does this dashboard shows?
-                        Overall, the dashboard is designed in a way that it consist of 3 columns. 
-                        While the side columns contain elements that help you to determine your roster in addition to a bar chart
-                        that shows player's total game plays in the previous season (2020-2021), 
-                        a dropdown menu and a text input section (at the bottom), 
-                        the column in the center contains a polar graph that compares nine default categories
-                        that is widely used in category-based leagues, and two stat sheets for each corresponding rosters.
+                        The dashboard consists of three columns and is designed in a way that the side columns contain a bar chart 
+                        and elements that help you to determine a roster, while the center column holds a polar graph 
+                        and two stat sheets for the corresponding roster.
                         
+                        It is a good sign for a player to be able to spread his performance throughout a season. The total number of games 
+                        played per season is not only a good metric to characterize the injury proneness of a player but also his performance 
+                        consistency. Thus, bar charts that show the total game played for the selected players in the previous season (2020-2021) 
+                        are also put on the side columns.
                         
-                
+                        You can build your roster either by selecting your players one by one from the dropdown menu or by simply copying your 
+                        players from the roster tab of your Yahoo Fantasy Application and pasting it into the text input, in one go.
+                        
+                        The polar graph on the center compares the nine default categories which are widely used in category-based leagues visually, 
+                        while two stat sheets for each corresponding roster are there for the ones who after for a more precise, numerical comparison.
+                        
+                        In addition to statistics of 9 categories (per game), stat sheets contain minutes per game (MPG) and the total game-played (GP) 
+                        stats for a selected season. Moreover, Z-scores of the corresponding statistics can also be found by scrolling the sheet to the right.
+                        
+                        A conceptual population that consists of the top 120 players of the 2020-2021 season is created, and the corresponding Z-scores are 
+                        calculated by utilizing it.
+                        
+                        Z-scores of the statistics, except FG% and FT%, are calculated by following the classical formula of (Xi-u)/sd where u and sd are the 
+                        population mean and the population standard deviation for corresponding statistics, respectively. FG% and FT% stats are weighted by their 
+                        corresponding per game shooting attempts before their 'weighted' Z-scores are calculated. Z-scores are also color-coded according to their 
+                        sigma levels (standard deviations). Given, 68% of the players lay between -/+1 standard deviation while 98% of them lay between -/+2 standard 
+                        deviation, having stat on -/+3 standard deviation makes a player roughly %1 and %99 percentile respectively!
+                        
+                        ###### Why weighted Z-scores for FG% and FT%?
+                        The rationale behind taking 'shooting attempt' weighted Z-scores of FG% and FT% stats can be explained by a short example: making a 10 out of 10
+                         free throws is much harder than 2 out of 2 while the percentage is %100 for both cases.
+                         
+                        ###### Where did you get your data?
+                        All data has been being scrapped periodically from [Basketball Monster](https://basketballmonster.com/default.aspx).
                 
                         ###### Source Code
-                        You can find the source code of this app on our [Github repository](https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-manufacture-spc-dashboard).
+                        You can find the source code of this app on my [Github repository](https://github.com/ytalp17/dashapp).
+                        
+                        ###### How can I support you?
+                        You can reach out to all of my source code completely free of charge. Moreover, you can always e-mail me without any hesitation in case 
+                        you want to build something out of this app; I would be more than happy to help.
+                        
+                        Beyond that, nobody would say no to a small treat; if you want to get me a cup of coffee, you can send AVAX, ETH, FTM, or BNB directly to my wallet:
+                         **0x4866C55E04F80d28FfAD35a2a5CAA264085c2A94**
+                        
                     """
                             )
                         ),
