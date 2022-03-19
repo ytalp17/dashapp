@@ -188,11 +188,12 @@ body {
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-/* Modal Content/Box */
+/* Modal Content/Box, top,right,bottom,left */
 .markdown-container {
+  overflow-x: scroll;
   width: 60vw;
   margin: 10% auto;
-  padding: 10px 15px;
+  padding: 10px 35px 25px 35px;
   background-color: #2d3038;
 }
 
